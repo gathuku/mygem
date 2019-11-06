@@ -16,4 +16,16 @@ class MygemTest < Minitest::Test
 
     assert_equal "154.70.39.153", Mygem.jsonip
   end
+
+  def test_it_create_post
+    stub_request(:post, "https://jsonplaceholder.typicode.com/posts").
+    with(
+      body: '{"title":"Build and api gem","body":"some body","userId":1}',
+      headers: {
+  	  'Content-Type'=>'application/json; charset=UTF-8'
+      }).
+    to_return(status: 200, body: '{"title"=>"Build and api gem", "body"=>"some body", "userId"=>1, "id"=>101} ', headers: {})
+
+    assert_equal 200, Mygem.create_post.status
+  end
 end
