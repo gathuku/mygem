@@ -20,37 +20,63 @@ module Mygem
   def reset
     self.configuration = Configuration.new
   end
-
   end
 
-  def self.jsonip
-    uri = URI("https://jsonip.org/")
-    response= Net::HTTP.get(uri)
-   JSON.parse(response)["ip"]
+  def self.register_urls(response_type)
+    url="https://virtserver.swaggerhub.com/zegetech/mpesaUniAPI/1.0/mpesa/urls"
+    headers={
+      "accept"=>"application/vnd.api+json",
+      "Content-Type"=>"application/vnd.api+json"
+    }
+    body={
+      data:{
+        type:"urls",
+        id:1,
+        attributes:{
+          confirmation_url: Configuration.new.confirmation_url,
+          validation_url: Configuration.new.validation_url,
+          short_code: Configuration.new.short_code,
+          response_type: response_type
+        }
+      }
+    }
+
+    Faraday.post(url,body.to_json,headers)
   end
 
-  def self.create_post
-
-   url="https://jsonplaceholder.typicode.com/posts"
-   body={
-    title: 'Build and api gem',
-    body: 'some body',
-    userId: 1
-   }
-   headers={
-     "Content-Type":"application/json; charset=UTF-8"
-   }
-  Faraday.post(url,body.to_json,headers)
-
-  #JSON.parse(res.body)
+  def self.payouts(category,amount,recipient_no,reference)
+    url="https://virtserver.swaggerhub.com/zegetech/mpesaUniAPI/1.0/mpesa/payouts"
+    headers={
+      "accept"=>"application/vnd.api+json",
+      "Content-Type"=>"application/vnd.api+json"
+    }
+    body={
+      data:{
+        type:"payouts",
+        id:1,
+        attributes: {
+          category: category,
+          amount: amount,
+          recipient_no: recipient_no,
+          recipient_type: "msisdn",
+          posted_at: Time.now,
+          recipient_id_type: "national_id",
+          recipient_id_number: "12345567",
+          reference: reference
+        }
+      }
+    }
+    Faraday.post(url,body.to_json,headers)
   end
 
 end
 
 class Configuration
-  attr_accessor :access_token
+  attr_accessor :confirmation_url, :validation_url, :short_code
 
   def initialize
-    @access_token = nil
+    @confirmation_url = "https://example.com/confirmation"
+    @validation_url = "https://example.com/validation"
+    @short_code = "600234"
   end
 end
