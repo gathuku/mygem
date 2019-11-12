@@ -4,5 +4,12 @@ rvm:
   - 2.6.3
 before_install: gem install bundler -v 2.0.2
 
-script:
-  - bundle exec rake test
+test:
+ script:
+   - bundle exec rake test
+
+deploy:
+  provider: rubygems
+  api_key:
+  on:
+    tags: true
