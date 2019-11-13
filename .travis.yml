@@ -10,6 +10,6 @@ test:
 
 deploy:
   provider: rubygems
-  api_key:
+  api_key: $RUBY_GEM_API_KEY
   on:
     tags: true
