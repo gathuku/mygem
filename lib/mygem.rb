@@ -3,6 +3,7 @@ require 'net/http'
 require 'uri'
 require "json"
 require "faraday"
+require "pry-byebug"
 
 
 
@@ -40,7 +41,7 @@ module Mygem
         }
       }
     }
-
+    binding.pry
     Faraday.post(url,body.to_json,headers)
   end
 

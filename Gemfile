@@ -10,3 +10,4 @@ gem 'webmock'
 
 gem 'guard'
 gem 'guard-minitest'
+gem 'pry-byebug'
