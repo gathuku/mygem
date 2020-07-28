@@ -4,7 +4,7 @@ source "https://rubygems.org"
 gemspec
 
 gem 'faraday'
-gem 'json', '~> 1.8', '>= 1.8.3'
+gem 'json', '~> 2.3'
 gem 'vcr'
 gem 'webmock'
 
